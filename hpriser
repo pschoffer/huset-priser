@@ -1,0 +1,73 @@
+#!/bin/bash
+
+usage() {
+    echo "$0 - Tool to compare house prises"
+    echo
+    echo "  -h/--help           Print help"
+    echo "  --list-locations    List supported locations"
+}
+
+error() {
+    color="\e[31m"
+    usage_text=`usage`
+    echo -e "${color}${1}\n\n\n${usage_text}" >&2
+    exit 2
+}
+
+# Transform long options to short ones
+for arg in "$@"; do
+    shift
+    case "$arg" in
+        "--list-locations") set -- "$@" "-a" ;;
+        *)        set -- "$@" "$arg"
+    esac
+done
+
+list_locations=false
+location=""
+while getopts ":hal:" opt; do
+    case $opt in
+        a)
+            list_locations=true
+        ;;
+        h)
+            usage
+            exit
+        ;;
+        l)
+            location="$OPTARG"
+        ;;
+        \?)
+            error "Invalid option: -$OPTARG"
+        ;;
+    esac
+done
+
+locations_file="locations.json"
+declare -A all_locations
+locations_json=`cat $locations_file | jq -Mc .[]`
+while read -r line; do
+    id=`echo $line | jq -Mc .id`
+    name=`echo $line | jq -Mc .name`
+    all_locations[$id]=$name
+    if $list_locations; then
+        echo -e "$id\t$name"
+    fi
+done <<< "$locations_json"
+
+if $list_locations; then
+    exit
+fi
+
+
+endpoint="https://www.booli.se/slutpriser//$location/?objectType=Lägenhet,Villa,Parhus,Radhus,Kedjehus&sort=soldDate"
+result=`curl -sL "$endpoint"`
+records=`echo $result | grep --color=never  -o "\{\"soldPropertiesSearchURL.*\}" | jq -Mc .soldProperties[]`
+
+record_counter=0
+while read -r record; do
+    record_counter=$((record_counter + 1))
+    echo "$record_counter record:"
+    echo $record | jq .
+    
+done <<< "$records"
