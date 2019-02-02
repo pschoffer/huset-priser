@@ -24,7 +24,8 @@ for arg in "$@"; do
 done
 
 list_locations=false
-while getopts ":ha" opt; do
+location=""
+while getopts ":hal:" opt; do
     case $opt in
         a)
             list_locations=true
@@ -33,6 +34,9 @@ while getopts ":ha" opt; do
             usage
             exit
         ;;
+        l)
+            location="$OPTARG"
+        ;;
         \?)
             error "Invalid option: -$OPTARG"
         ;;
@@ -40,12 +44,12 @@ while getopts ":ha" opt; do
 done
 
 locations_file="locations.json"
-declare -A locations
+declare -A all_locations
 locations_json=`cat $locations_file | jq -Mc .[]`
 while read -r line; do
     id=`echo $line | jq -Mc .id`
     name=`echo $line | jq -Mc .name`
-    locations[$id]=$name
+    all_locations[$id]=$name
     if $list_locations; then
         echo -e "$id\t$name"
     fi
@@ -54,4 +58,16 @@ done <<< "$locations_json"
 if $list_locations; then
     exit
 fi
-echo "${locations[393]}"
+
+
+endpoint="https://www.booli.se/slutpriser//$location/?objectType=Lägenhet,Villa,Parhus,Radhus,Kedjehus&sort=soldDate"
+result=`curl -sL "$endpoint"`
+records=`echo $result | grep --color=never  -o "\{\"soldPropertiesSearchURL.*\}" | jq -Mc .soldProperties[]`
+
+record_counter=0
+while read -r record; do
+    record_counter=$((record_counter + 1))
+    echo "$record_counter record:"
+    echo $record | jq .
+    
+done <<< "$records"
