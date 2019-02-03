@@ -5,8 +5,13 @@ usage() {
     echo
     echo "  -h/--help           Print help"
     echo "  --list-locations    List supported locations"
+    echo
     echo "  -l <location_id>    Show statistics for <location_id>. Multiple" 
     echo "  -a                  All supported locations. (Takes a while)" 
+    echo
+    echo "  Types (default all)"
+    echo "  -f                  Pick flats"
+    echo "  -h                  Pick houses"
 }
 
 error() {
@@ -32,14 +37,22 @@ done
 
 list_locations=false
 all_locations=false
+flats=false
+houses=false
 locations=()
-while getopts ":hAal:" opt; do
+while getopts ":hAfhal:" opt; do
     case $opt in
         a)
             all_locations=true
         ;;
         A)
             list_locations=true
+        ;;
+        f)
+            flats=true
+        ;;
+        h)
+            houses=true
         ;;
         h)
             usage
@@ -53,6 +66,11 @@ while getopts ":hAal:" opt; do
         ;;
     esac
 done
+
+if ! $flats && ! $houses; then
+    flats=true
+    houses=true
+fi
 
 locations_file="locations.json"
 declare -A all_locations
@@ -75,7 +93,10 @@ fi
 
 for location in "${locations[@]}"
 do
-    endpoint="https://www.booli.se/slutpriser//$location/?objectType=Lägenhet,Villa,Parhus,Radhus,Kedjehus&sort=soldDate"
+    objectTypes=""
+    if $flats; then objectTypes="$objectTypes,Lägenhet"; fi
+    if $houses; then objectTypes="$objectTypes,Villa,Parhus,Radhus,Kedjehus"; fi
+    endpoint="https://www.booli.se/slutpriser//$location/?objectType=${objectTypes:1}&sort=soldDate"
     result=`curl -sL "$endpoint"`
     records=`echo $result | grep --color=never  -o "\{\"soldPropertiesSearchURL.*\}" | jq -Mc .soldProperties[]`
 
