@@ -9,9 +9,12 @@ usage() {
     echo "  -l <location_id>    Show statistics for <location_id>. Multiple" 
     echo "  -a                  All supported locations. (Takes a while)" 
     echo
-    echo "  Types (default all)"
-    echo "  -f                  Pick flats"
-    echo "  -h                  Pick houses"
+    echo "  Filters"
+    echo "  -F                  Pick flats (default flats + houses)"
+    echo "  -H                  Pick houses (default flats + houses)"
+    echo "  -f <xx m^2>         Area from"
+    echo "  -t <xx m^2>         Area to"
+
 }
 
 error() {
@@ -40,7 +43,9 @@ all_locations=false
 flats=false
 houses=false
 locations=()
-while getopts ":hAfhal:" opt; do
+area_from=""
+area_to=""
+while getopts ":hAFHal:f:t:" opt; do
     case $opt in
         a)
             all_locations=true
@@ -48,11 +53,17 @@ while getopts ":hAfhal:" opt; do
         A)
             list_locations=true
         ;;
-        f)
+        F)
             flats=true
         ;;
-        h)
+        H)
             houses=true
+        ;;
+        f)
+            area_from="$OPTARG"
+        ;;
+        t)
+            area_to="$OPTARG"
         ;;
         h)
             usage
@@ -93,12 +104,17 @@ fi
 
 for location in "${locations[@]}"
 do
+    filters=""
+    if [[ $area_from ]]; then filters="$filters&minLivingArea=$area_from"; fi
+    if [[ $area_to ]]; then filters="$filters&maxLivingArea=$area_to"; fi
+
     objectTypes=""
     if $flats; then objectTypes="$objectTypes,Lägenhet"; fi
     if $houses; then objectTypes="$objectTypes,Villa,Parhus,Radhus,Kedjehus"; fi
-    endpoint="https://www.booli.se/slutpriser//$location/?objectType=${objectTypes:1}&sort=soldDate"
+    endpoint="https://www.booli.se/slutpriser//$location/?objectType=${objectTypes:1}${filters}&sort=soldDate"
     result=`curl -sL "$endpoint"`
     records=`echo $result | grep --color=never  -o "\{\"soldPropertiesSearchURL.*\}" | jq -Mc .soldProperties[]`
+    # echo $endpoint
 
     record_counter=0
     declare -A data
@@ -109,6 +125,8 @@ do
         # echo $record | jq .
         this_price=`echo $record | jq .soldPrice.raw`
         this_sqm_price=`echo $record | jq .soldSqmPrice.raw`
+        # echo "$this_price"
+
         data[price]=$((${data[price]} + $this_price))
         data[sqm_price]=$((${data[sqm_price]} + $this_sqm_price))
     done <<< "$records"
