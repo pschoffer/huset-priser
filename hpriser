@@ -14,6 +14,11 @@ usage() {
     echo "  -H                  Pick houses (default flats + houses)"
     echo "  -f <xx m^2>         Area from"
     echo "  -t <xx m^2>         Area to"
+    echo
+    echo "Example:"
+    echo "  $0 -Ha -f 80 -t 120"
+    echo "      - lists al the locations only house prices with living area"
+    echo "        80 - 120 m^2 are considered" 
 
 }
 
@@ -102,6 +107,8 @@ if $list_locations; then
     exit
 fi
 
+printf "%-20s\t%s\t%s\n" "LOCATION" "AVG PRICE" "AVG PRICE/M^2"
+
 for location in "${locations[@]}"
 do
     filters=""
@@ -133,5 +140,5 @@ do
 
     avg_price=`avg ${data[price]} $record_counter`
     avg_sqm_price=`avg ${data[sqm_price]} $record_counter`
-    echo ${all_locations[$location]} ${avg_price} ${avg_sqm_price}
+    printf "%-20s\t%'d\t%'d\n" "${all_locations[$location]}" ${avg_price} ${avg_sqm_price}
 done
