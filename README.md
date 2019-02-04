@@ -1,8 +1,8 @@
-### Huset-priser
+# Huset-priser
 
 This is an attempt to aggregate data about a house market and show them in some nice way.
 
-As I couldnt find any usefull API, I will scrape booli's website.
+As I couldnt find any usefull API, I will scrape booli's website. Note that the source of data is end prices published on `booli` as you can see [here](https://www.booli.se/slutpriser/nacka/76/)
 
 ## Usage
 
