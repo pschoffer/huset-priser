@@ -4,8 +4,9 @@ usage() {
     echo "$0 - Tool to compare house prises"
     echo
     echo "  -h/--help           Print help"
-    echo "  --list-locations    List supported locations"
+    echo "  -d                  Print debug lines"
     echo
+    echo "  --list-locations    List supported locations"
     echo "  -l <location_id>    Show statistics for <location_id>. Multiple" 
     echo "  -a                  All supported locations. (Takes a while)" 
     echo
@@ -112,6 +113,12 @@ while read -r line; do
         locations=( ${locations[@]} $id )
     fi
 done <<< "$locations_json"
+
+debug "Location codes to be cheked [${locations[@]}]"
+
+if [ ${#locations[@]} -eq 0 ]; then
+    error "No location specified"
+fi
 
 if $list_locations; then
     exit
