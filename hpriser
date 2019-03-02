@@ -131,7 +131,7 @@ if $list_locations; then
     exit
 fi
 
-printf "%-20s\t%s\t%s\n" "LOCATION" "AVG PRICE" "AVG PRICE/M^2"
+printf "| %-20s\t| %s | %-10s |\n" "LOCATION" "AVG PRICE" "M^2 (COUNT)"
 
 for location in "${locations[@]}"
 do
@@ -181,5 +181,5 @@ do
 
     avg_price=`avg ${data[price]} $record_counter`
     avg_sqm_price=`avg ${data[sqm_price]} $record_counter`
-    printf "%-20s\t%'d\t%'d\n" "${all_locations[$location]}" ${avg_price} ${avg_sqm_price}
+    printf "| %-20s\t| %'d | %'d (%d) |\n" "${all_locations[$location]}" ${avg_price} ${avg_sqm_price} $record_counter
 done
