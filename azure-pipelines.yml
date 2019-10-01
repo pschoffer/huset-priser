@@ -6,8 +6,6 @@ pool:
 
 steps:
   - script: sudo apt install shellcheck
-    displayName:
-      "Install shellcheck"
-      # -e SC2154 - should be removed after shellcheck issue is fixed -https://github.com/koalaman/shellcheck/issues/1710
-  - script: shellcheck -e SC2154 hpriser
+    displayName: "Install shellcheck"
+  - script: shellcheck hpriser
     displayName: "Check script"
