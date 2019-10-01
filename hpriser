@@ -6,7 +6,7 @@ usage() {
     echo "  -h/--help           Print help"
     echo "  -d                  Print debug lines"
     echo
-    echo "  --list-locations    List supported locations"
+    echo "  -A                  List supported locations"
     echo "  -l <location_id>    Show statistics for <location_id>. Multiple" 
     echo "  -a                  All supported locations. (Takes a while)" 
     echo "  -p <number>         Number of pages to check (more means better precision but slower)"
