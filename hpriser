@@ -166,16 +166,14 @@ do
     done
 
     record_counter=0
-    declare -A data
-    data[price]=0
-    data[sqm_price]=0
+    data=([price]=0 [sqm_price]=0)
     for record in "${records[@]}"; do
         record_counter=$((record_counter + 1))
         this_price=$(echo "$record" | jq .soldPrice.raw)
         this_sqm_price=$(echo "$record" | jq .soldSqmPrice.raw)
 
-        data[price]=$((data['price'] + this_price))
-        data[sqm_price]=$((data['sqm_price'] + this_sqm_price))
+        data[price]=$((data[price] + this_price))
+        data[sqm_price]=$((data[sqm_price] + this_sqm_price))
     done
     debug "Processed $record_counter records"
 
