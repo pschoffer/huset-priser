@@ -123,12 +123,12 @@ done <<< "$locations_json"
 
 debug "Location codes to be cheked [" "${locations[@]}" "]"
 
-if [ ${#locations[@]} -eq 0 ]; then
-    error "No location specified"
-fi
-
 if $list_locations; then
     exit
+fi
+
+if [ ${#locations[@]} -eq 0 ]; then
+    error "No location specified"
 fi
 
 printf "| %-20s\t| %s | %-10s |\n" "LOCATION" "AVG PRICE" "M^2 (COUNT)"
