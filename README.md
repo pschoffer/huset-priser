@@ -4,6 +4,21 @@ This is an attempt to aggregate data about a house market and show them in some 
 
 As I couldnt find any usefull API, I will scrape booli's website. Note that the source of data is end prices published on `booli` as you can see [here](https://www.booli.se/slutpriser/nacka/76/)
 
+## Prerequisites
+
+In order to use this script you must have install package `jq` for working with JSON.   
+Fedora/CentOS/RedHat:   
+```
+# dnf install jq
+``` 
+Ubuntu:   
+```
+# apt-get install jq
+```
+
+Give examples
+
+
 ## Available switches
 
 ```
