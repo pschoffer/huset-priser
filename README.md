@@ -6,7 +6,7 @@ As I couldnt find any usefull API, I will scrape booli's website. Note that the 
 
 ## Prerequisites
 
-In order to use this script you must have install package `jq` for working with JSON.   
+In order to use this script you must have installed package `jq` for working with JSON.   
 Fedora/CentOS/RedHat:   
 ```
 # dnf install jq
