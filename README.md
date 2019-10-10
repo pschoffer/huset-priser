@@ -16,7 +16,6 @@ Ubuntu:
 # apt-get install jq
 ```
 
-Give examples
 
 
 ## Available switches
