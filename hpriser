@@ -150,7 +150,7 @@ do
         endpoint="$base_endpoint&page=$current_page"
         debug "Fetching data from $endpoint"
 
-        result=$(curl -sL "$endpoint")
+        result=$(curl -sL --compressed "$endpoint")
         record_json=$(echo "$result" | grep --color=never  -o "\{\"soldPropertiesSearchURL.*\}")
         record_strings=$(echo "$record_json" | jq -Mc .soldProperties[]?)
         if [ ! -z "$record_strings" ]; then
