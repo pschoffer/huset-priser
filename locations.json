@@ -1,49 +1,70 @@
-[{
-    "id": 13,
-    "name": "Sollentuna"
-}, {
-    "id": 20,
-    "name": "Täby"
-}, {
-    "id": 76,
-    "name": "Nacka"
-}, {
-    "id": 78,
-    "name": "Malmö"
-}, {
-    "id": 97,
-    "name": "Lund"
-}, {
-    "id": 110,
-    "name": "Tullinge"
-}, {
-    "id": 130,
-    "name": "Lidingö"
-}, {
-    "id": 218,
-    "name": "Huddinge"
-}, {
-    "id": 252,
-    "name": "Norrköping"
-}, {
-    "id": 281,
-    "name": "Vaxholm"
-}, {
-    "id": 393,
-    "name": "Linköping"
-}, {
-    "id": 419,
-    "name": "Uppsala"
-}, {
-    "id": 469,
-    "name": "Upplands Väsby"
-}, {
-    "id": 599,
-    "name": "Tumba"
-}, {
-    "id": 2697,
-    "name": "Örnsberg"
-}, {
-    "id": 116035,
-    "name": "Kimstad"
-}]
+[
+    {
+        "id": 13,
+        "name": "Sollentuna"
+    },
+    {
+        "id": 20,
+        "name": "Täby"
+    },
+    {
+        "id": 76,
+        "name": "Nacka"
+    },
+    {
+        "id": 78,
+        "name": "Malmö"
+    },
+    {
+        "id": 97,
+        "name": "Lund"
+    },
+    {
+        "id": 110,
+        "name": "Tullinge"
+    },
+    {
+        "id": 130,
+        "name": "Lidingö"
+    },
+    {
+        "id": 218,
+        "name": "Huddinge"
+    },
+    {
+        "id": 252,
+        "name": "Norrköping"
+    },
+    {
+        "id": 281,
+        "name": "Vaxholm"
+    },
+    {
+        "id": 393,
+        "name": "Linköping"
+    },
+    {
+        "id": 419,
+        "name": "Uppsala"
+    },
+    {
+        "id": 469,
+        "name": "Upplands Väsby"
+    },
+    {
+        "id": 599,
+        "name": "Tumba"
+    },
+    {
+        "id": 776,
+        "name": "Vastervik"
+    },
+    {
+        "id": 2697,
+        "name": "Örnsberg"
+    },
+    {
+        "id": 116035,
+        "name": "Kimstad"
+    }
+]
