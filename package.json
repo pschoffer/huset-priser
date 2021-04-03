@@ -1,0 +1,23 @@
+{
+  "name": "huset-priser",
+  "version": "1.0.0",
+  "description": "This is an attempt to aggregate data about a house market and show them in some nice way.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pschoffer/huset-priser.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pschoffer/huset-priser/issues"
+  },
+  "homepage": "https://github.com/pschoffer/huset-priser#readme",
+  "dependencies": {
+    "commander": "^7.2.0",
+    "debug": "^4.3.1"
+  }
+}
