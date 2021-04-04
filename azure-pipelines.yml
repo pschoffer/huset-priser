@@ -5,7 +5,5 @@ pool:
   vmImage: "ubuntu-latest"
 
 steps:
-  - script: sudo apt install shellcheck
-    displayName: "Install shellcheck"
-  - script: shellcheck hpriser
-    displayName: "Check script"
+  - script: echo "Add some tests maaan"
+    displayName: "Nothing to do for now"
