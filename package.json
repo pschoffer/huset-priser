@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/pschoffer/huset-priser#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "commander": "^7.2.0",
     "debug": "^4.3.1"
   }
