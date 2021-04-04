@@ -1,7 +1,7 @@
 #!/usr/bin/node
 
 const { Command } = require('commander');
-const { getAllLocations, getLocations, printLocations, panic, getDataFromBooli } = require('./lib');
+const { getAllLocations, getLocations, panic, getDataFromBooli, calculateAggregates } = require('./lib');
 const debug = require('debug')('command')
 
 const program = new Command();
@@ -58,7 +58,25 @@ const main = async () => {
         ...location,
         aggregates: calculateAggregates(location.data)
     }))
-    console.log("data", locationsaWithAggregates);
+
+    printResults(locationsaWithAggregates);
+}
+
+
+const printLocations = (locations) => {
+
+    console.log(JSON.stringify(locations));
+
+}
+
+const printResults = (locationsaWithAggregates) => {
+    const printOnlyData = locationsaWithAggregates.map(location => ({
+        id: location.id,
+        name: location.name,
+        ...location.aggregates
+    }));
+
+    console.log(JSON.stringify(printOnlyData));
 }
 
 main();

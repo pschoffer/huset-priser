@@ -10,14 +10,30 @@ const getAllLocations = () => {
     return allLocations;
 }
 
-const printLocations = (locations) => {
-    for (const location of locations) {
-        console.log(`${location.id}: ${location.name}`);
-    }
-
-}
 
 const calculateAggregates = (data) => {
+    const recordCount = data.length;
+
+    const metrics = ['soldPrice', 'soldSqmPrice'];
+    const sums = { soldPrice: 0, soldSqmPrice: 0 };
+
+    for (const datum of data) {
+        metrics.forEach(metric => sums[metric] += datum[metric].raw);
+    }
+
+    debug("Calculating aggregated with count", recordCount, sums);
+
+    const result = {};
+
+    metrics.forEach(metric => {
+        const newMetricKey = 'average' + metric.charAt(0).toUpperCase() + metric.slice(1);
+        result[newMetricKey] = Math.round(sums[metric] / recordCount)
+    });
+
+    return {
+        ...result,
+        recordCount
+    }
 
 }
 
@@ -96,7 +112,6 @@ const panic = (msg) => {
 module.exports = {
     getLocations,
     getAllLocations,
-    printLocations,
     getDataFromBooli,
     calculateAggregates,
     panic
