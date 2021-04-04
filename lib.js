@@ -17,6 +17,10 @@ const printLocations = (locations) => {
 
 }
 
+const calculateAggregates = (data) => {
+
+}
+
 const getDataFromBooli = async (locations, options) => {
     const result = [];
 
@@ -94,5 +98,6 @@ module.exports = {
     getAllLocations,
     printLocations,
     getDataFromBooli,
+    calculateAggregates,
     panic
 }

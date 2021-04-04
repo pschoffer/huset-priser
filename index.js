@@ -52,8 +52,13 @@ const main = async () => {
         process.exit();
     }
 
-    const data = await getDataFromBooli(locations, options);
-    console.log("data", data);
+    const locationsWithData = await getDataFromBooli(locations, options);
+
+    const locationsaWithAggregates = locationsWithData.map(location => ({
+        ...location,
+        aggregates: calculateAggregates(location.data)
+    }))
+    console.log("data", locationsaWithAggregates);
 }
 
 main();
