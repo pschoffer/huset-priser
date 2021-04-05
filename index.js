@@ -16,6 +16,7 @@ program
     .option('-l, --location <location_id...>', 'Show statistics for <location_id>. Multiple')
     .option("-a, --all_locations", "all supported locations. (Takes a while)")
     .option("-p, --pages <number>", "Number of pages to check (more means better precision but slower)")
+    .option("--per_month", "Break down statistics per month")
 
     .option("-F, --flats", "Pick flats (default flats + houses)")
     .option("-H, --houses", "Pick houses (default flats + houses)")
@@ -56,7 +57,7 @@ const main = async () => {
 
     const locationsaWithAggregates = locationsWithData.map(location => ({
         ...location,
-        aggregates: calculateAggregates(location.data)
+        aggregates: calculateAggregates(location.data, options.per_month)
     }))
 
     printResults(locationsaWithAggregates);

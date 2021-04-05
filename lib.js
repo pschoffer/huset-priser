@@ -11,13 +11,44 @@ const getAllLocations = () => {
 }
 
 
-const calculateAggregates = (data) => {
-    const recordCount = data.length;
+const calculateAggregates = (data, perMonth) => {
+    const buckets = {
+        all: data
+    };
+    if (perMonth) {
+        // split per month
+        for (const datum of data) {
+            const soldDate = new Date(datum.soldDate);
+            const bucketKey = `${soldDate.getFullYear()}-${soldDate.getMonth() + 1}`;
 
+            if (!(bucketKey in buckets)) {
+                buckets[bucketKey] = [];
+            }
+            buckets[bucketKey].push(datum);
+        }
+    }
+
+    const aggregates = {}
+    Object.keys(buckets)
+        .forEach(key => aggregates[key] = _calculateAverageFromData(buckets[key]));
+
+    return perMonth ? aggregates : aggregates.all
+}
+
+
+const _isValidRecord = (record) => {
+    const hasSoldPrice = record.soldPrice && record.soldPrice.raw;
+    const hasSoldSqmPrice = record.soldSqmPrice && record.soldSqmPrice.raw;;
+    return hasSoldPrice && hasSoldSqmPrice;
+}
+const _calculateAverageFromData = (data) => {
+    const filteredData = data.filter(_isValidRecord)
+
+    const recordCount = filteredData.length;
     const metrics = ['soldPrice', 'soldSqmPrice'];
     const sums = { soldPrice: 0, soldSqmPrice: 0 };
 
-    for (const datum of data) {
+    for (const datum of filteredData) {
         metrics.forEach(metric => sums[metric] += datum[metric].raw);
     }
 
@@ -34,7 +65,6 @@ const calculateAggregates = (data) => {
         ...result,
         recordCount
     }
-
 }
 
 const getDataFromBooli = async (locations, options) => {
